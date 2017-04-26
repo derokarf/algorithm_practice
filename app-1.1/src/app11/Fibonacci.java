@@ -6,7 +6,7 @@
 package app11;
 
 import java.math.BigInteger;
-import libBook.StdOut;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,37 +14,33 @@ import libBook.StdOut;
  */
 public class Fibonacci {
 
-    static BigInteger[] listFib;
+    protected ArrayList<BigInteger> listFib = new ArrayList<>();
 
-    public static BigInteger F(int N) {
+    public Fibonacci() {
+        listFib.add(BigInteger.valueOf(0));
+        listFib.add(BigInteger.valueOf(1));
+    }
+
+    public BigInteger F(int N) {
 
         if (N >= 0) {
-            listFib = new BigInteger[N + 1];
-            return calcF(N);
+            if (listFib.size() > N) {
+                return listFib.get(N);
+            } else {
+                return calcF(N);
+            }
         } else {
-            StdOut.println("N должно быть целым неотрицательным числом");
+            System.out.println("N должно быть целым неотрицательным числом");
             return BigInteger.valueOf(0);
         }
     }
 
-    private static BigInteger calcF(int N) {
-        if (N == 0) {
-            listFib[N] = BigInteger.valueOf(N);
-            return BigInteger.valueOf(0);
+    protected BigInteger calcF(int N) {
+        for (int i = listFib.size(); i <= N; i++) {
+            BigInteger a = listFib.get(i - 1);
+            BigInteger b = listFib.get(i - 2);
+            listFib.add(a.add(b));
         }
-        if (N == 1) {
-            listFib[N] = BigInteger.valueOf(N);
-            return BigInteger.valueOf(1);
-        }
-        if (listFib[N] == null) {
-            listFib[N] = calcF(N - 1).add(calcF(N - 2));
-        }
-        return listFib[N];
-    }
-
-    public static void main(String[] args) {
-        for (int N = 0; N < 100; N++) {
-            StdOut.println(N + " " + F(N));
-        }
+        return listFib.get(listFib.size() - 1);
     }
 }
