@@ -66,4 +66,11 @@ public class Binom {
         return _bin;
     }
 
+    public static void main(String[] args) {
+
+        Binom B = new Binom();
+        System.out.println(B.getBinom(100, 50, 0.25));
+
+    }
+
 }
