@@ -1,23 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app11;
 
-/**
- *
- * @author igor
- */
 public class LogArray {
 
     //алгоритм Евклида
     private static int gcd(int p, int q) {
-        if (q == 0) {
-            return p;
+        int r = q;
+        while (r > 0) {
+            r = p % q;
+            p = q;
+            q = r;
         }
-        int r = p % q;
-        return gcd(q, r);
+        return p;
     }
 
     //создание и заполнение логического массива
@@ -34,8 +27,8 @@ public class LogArray {
         la = new boolean[N][N];
 
         for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                la[i][j] = gcd(i + 1, j + 1) == 1;
+            for (int j = i; j < N; j++) {
+                la[j][i] = la[i][j] = gcd(i + 1, j + 1) == 1;
             }
         }
 
