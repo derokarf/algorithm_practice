@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package app11;
 
-/**
- *
- * @author igor
- */
 import java.util.Scanner;
 import libBook.StdDraw;
 import libBook.StdIn;
@@ -74,10 +65,8 @@ public class Histogram {
     //отрисовка гистограммы
     public static void drawRes(int[] _src) {
 
-        System.out.println(_src.length);
         double _n = _src.length;
         double _d = 0.5 / _n;
-        System.out.println(_d);
         for (int i = 0; i < _src.length; i++) {
             double x = i * (_d) + _d / 2 + 0.2;
             double y = _src[i] * 0.05;
@@ -89,22 +78,17 @@ public class Histogram {
 
     public static void main(String[] args) {
         double l, r;
-        int N = 0;
+        int N;
         int[] list;
+        if (args.length == 3) {
+            l = Double.valueOf(args[0]);
+            r = Double.valueOf(args[1]);
+            N = Integer.valueOf(args[2]);
+            list = calcList(l, r, N);
+            drawRes(list);
+        } else {
+            System.out.println("Неверное количество аргуметов, передано ".concat(String.valueOf(args.length)).concat(", необходимо 3"));
+        }
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Введите число L, начало отрезка");
-        l = in.nextDouble();
-        r = l;
-        while (l >= r) {
-            System.out.println("Введите число R, конец отрезка, оно должно быть больше l = ".concat(String.valueOf(l)));
-            r = in.nextDouble();
-        }
-        while (N <= 0) {
-            System.out.println("Введите целое положительное число интервалов,N");
-            N = in.nextInt();
-        }
-        list = calcList(l, r, N);
-        drawRes(list);
     }
 }
