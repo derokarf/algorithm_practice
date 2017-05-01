@@ -53,10 +53,15 @@ public class GATTACA {
         return false;
     }
 
+    //третий метод в одну строку
+    private boolean eqThree(String _strGen2) {
+        return this.strGen.concat(this.strGen).indexOf(_strGen2) > -1;
+    }
+
     //публичный метод для дополнительного анализа строк
     public boolean eq(String _strGen2) {
         if (_strGen2.length() == this.strGen.length()) {
-            return eqTwo(_strGen2);
+            return eqThree(_strGen2);
         } else {
             return false;
         }
@@ -65,34 +70,38 @@ public class GATTACA {
     //перегрузка метода для сравнения двух объектов типа GATTACA
     public boolean eq(GATTACA _strGen2) {
         if (_strGen2.getStrGen().length() == this.strGen.length()) {
-            return eqTwo(_strGen2.getStrGen());
+            return eqThree(_strGen2.getStrGen());
         } else {
             return false;
         }
     }
 
     public static void main(String[] args) {
-        GATTACA first = new GATTACA("TGACGAC");
-        GATTACA second = new GATTACA("ACTGACG");
+        GATTACA first = new GATTACA("ACTGACG");
+        GATTACA second = new GATTACA("TGACGAC");
         boolean result = first.eq(second);
         if (result) {
             System.out.println("Строки циклически равны");
         } else {
             System.out.println("Строки циклически не равны");
         }
-        
-        
+
         //Анализ производительности методов сравнения
-        String _src = "TGACGACACTGACGGGCCTA";
+        String _src = "TGACGACACTGACTTTCCTA";
         String str1 = "";
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 1000; i++) {
             str1 = str1.concat(_src);
         }
         System.out.println("Длина строки ".concat(String.valueOf(str1.length())));
-        String str2 = "GACGGGCCTA".concat(str1.substring(0, str1.length() - 10));
+        String str2 = "GACTTTCCTA".concat(str1.substring(0, str1.length() - 10));
         long start;
         long stop;
         GATTACA genOne = new GATTACA(str1);
+
+        start = System.nanoTime();
+        System.out.println(genOne.eqThree(str2));
+        stop = System.nanoTime();
+        System.out.println("Третий метод: ".concat(String.valueOf(stop - start)));
 
         start = System.nanoTime();
         System.out.println(genOne.eqOne(str2));
