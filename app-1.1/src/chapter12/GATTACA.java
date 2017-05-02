@@ -35,50 +35,40 @@ public class GATTACA {
 
     //реализация сравнения подстрок по первому общему символу
     private boolean eqTwo(String _strGen2) {
-        String firstChar = _strGen2.substring(0, 1);
-        int index = this.strGen.indexOf(firstChar);
-        int lenSub = this.strGen.length() - index;
-        while (index >= 0) {
-            //сравнить подстроку от найденного символа до конца
-            if (this.strGen.substring(index).equals(_strGen2.substring(0, lenSub))) {
-                //сравнить оставшиеся подстроки строк
-                if (this.strGen.substring(0, index).equals(_strGen2.substring(lenSub))) {
-                    return true;
+        if (_strGen2.length() == this.strGen.length()) {
+            String firstChar = _strGen2.substring(0, 1);
+            int index = this.strGen.indexOf(firstChar);
+            int lenSub = this.strGen.length() - index;
+            while (index >= 0) {
+                //сравнить подстроку от найденного символа до конца
+                if (this.strGen.substring(index).equals(_strGen2.substring(0, lenSub))) {
+                    //сравнить оставшиеся подстроки строк
+                    if (this.strGen.substring(0, index).equals(_strGen2.substring(lenSub))) {
+                        return true;
+                    }
                 }
-            }
-            index = this.strGen.indexOf(firstChar, index + 1);
-            lenSub = this.strGen.length() - index;
+                index = this.strGen.indexOf(firstChar, index + 1);
+                lenSub = this.strGen.length() - index;
 
+            }
         }
         return false;
     }
 
     //третий метод в одну строку
-    private boolean eqThree(String _strGen2) {
-        return this.strGen.concat(this.strGen).indexOf(_strGen2) > -1;
-    }
-
-    //публичный метод для дополнительного анализа строк
     public boolean eq(String _strGen2) {
-        if (_strGen2.length() == this.strGen.length()) {
-            return eqThree(_strGen2);
-        } else {
-            return false;
-        }
+        return _strGen2.length() == this.strGen.length() && (this.strGen.concat(this.strGen).indexOf(_strGen2) > -1);
     }
 
     //перегрузка метода для сравнения двух объектов типа GATTACA
     public boolean eq(GATTACA _strGen2) {
-        if (_strGen2.getStrGen().length() == this.strGen.length()) {
-            return eqThree(_strGen2.getStrGen());
-        } else {
-            return false;
-        }
+        return _strGen2.getStrGen().length() == this.strGen.length() && (this.strGen.concat(this.strGen).indexOf(_strGen2.getStrGen()) > -1);
+
     }
 
     public static void main(String[] args) {
-        GATTACA first = new GATTACA("ACTGACG");
-        GATTACA second = new GATTACA("TGACGAC");
+        GATTACA first = new GATTACA("ACTGACG");//ACTGACG
+        GATTACA second = new GATTACA("TGACGAC");//TGACGAC
         boolean result = first.eq(second);
         if (result) {
             System.out.println("Строки циклически равны");
@@ -99,7 +89,7 @@ public class GATTACA {
         GATTACA genOne = new GATTACA(str1);
 
         start = System.nanoTime();
-        System.out.println(genOne.eqThree(str2));
+        System.out.println(genOne.eq(str2));
         stop = System.nanoTime();
         System.out.println("Третий метод: ".concat(String.valueOf(stop - start)));
 
