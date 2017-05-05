@@ -2,33 +2,50 @@ package chapter12;
 
 import java.util.Scanner;
 
-public class Rational {
+public final class Rational {
 
-    private final int numerator;
-    private final int denominator;
+    private final long num;
+    private final long denom;
 
-    public int getNumerator() {
-        return numerator;
+    protected final long getNumerator() {
+        return num;
     }
 
-    public int getDenominator() {
-        return denominator;
+    protected final long getDenominator() {
+        return denom;
     }
 
     public Rational(final int numerator, final int denominator) {
+        assert denominator != 0 : "Знаменательне может быть 0";
         if (numerator == 0) {
-            this.numerator = 0;
-            this.denominator = 1;
+            num = 0;
+            denom = 1;
         } else {
-            final int p = gcd(numerator, denominator);
-            final float sign = Float.valueOf(numerator) / Float.valueOf(denominator);
-            this.numerator = sign > 0 ? numerator / p : -Math.abs(numerator) / p;
-            this.denominator = Math.abs(denominator) / p;
+            final int p = Math.toIntExact(gcd(numerator, denominator));//вообще, здесь я бы лучше gcd тоже перегрузил,но будет много функций
+            final double sign = Double.valueOf(numerator) / Double.valueOf(denominator);
+            num = sign > 0 ? Math.abs(numerator) / p : -Math.abs(numerator) / p;
+            denom = Math.abs(denominator) / p;
         }
     }
 
-    public static int gcd(int _num, int _denom) {
-        int r = _denom;
+    //перегрузка конструктора для математических операций
+    public Rational(final long numerator, final long denominator) {
+        assert denominator != 0 : "Знаменательне может быть 0";
+        if (numerator == 0) {
+            num = 0;
+            denom = 1;
+        } else {
+            final long p = gcd(numerator, denominator);
+            final double sign = Double.valueOf(numerator) / Double.valueOf(denominator);
+            num = sign > 0 ? Math.abs(numerator) / p : -Math.abs(numerator) / p;
+            denom = Math.abs(denominator) / p;
+            assert (num <= Integer.MAX_VALUE) && (num >= Integer.MIN_VALUE) : "Превышено максимально значение числителя";
+            assert (denom <= Integer.MAX_VALUE) && (denom >= Integer.MIN_VALUE) : "Превышено максимально значение знаменателя";
+        }
+    }
+
+    private static long gcd(long _num, long _denom) {
+        long r = _denom;
         while (r != 0) {
             r = _num % _denom;
             _num = _denom;
@@ -37,30 +54,30 @@ public class Rational {
         return Math.abs(_num);
     }
 
-    public Rational plus(Rational b) {
-        return new Rational(numerator * b.getDenominator() + b.getNumerator() * denominator, denominator * b.getDenominator());
+    public final Rational plus(Rational b) {
+        return new Rational(num * b.getDenominator() + b.getNumerator() * denom, denom * b.getDenominator());
     }
 
-    public Rational minus(Rational b) {
-        return new Rational(numerator * b.getDenominator() - b.getNumerator() * denominator, denominator * b.getDenominator());
+    public final Rational minus(Rational b) {
+        return new Rational(num * b.getDenominator() - b.getNumerator() * denom, denom * b.getDenominator());
     }
 
-    public Rational times(Rational b) {
-        return new Rational(b.getNumerator() * numerator, b.getDenominator() * denominator);
+    public final Rational times(Rational b) {
+        return new Rational(b.getNumerator() * num, b.getDenominator() * denom);
 
     }
 
-    public Rational divides(Rational b) {
-        return new Rational(b.getDenominator() * numerator, b.getNumerator() * denominator);
+    public final Rational divides(Rational b) {
+        return new Rational(b.getDenominator() * num, b.getNumerator() * denom);
     }
 
-    public boolean equals(Rational that) {
-        return numerator == that.getNumerator() && denominator == that.getDenominator();
+    public final boolean equals(Rational that) {
+        return num == that.getNumerator() && denom == that.getDenominator();
     }
 
     @Override
-    public String toString() {
-        return denominator == 1 ? String.valueOf(numerator) : String.valueOf(numerator).concat("/").concat(String.valueOf(denominator));
+    public final String toString() {
+        return denom == 1 ? String.valueOf(num) : String.valueOf(num).concat("/").concat(String.valueOf(denom));
     }
 
     public static void main(String[] args) {
@@ -100,10 +117,11 @@ public class Rational {
                         System.out.println(val1.toString().concat(":").concat(val2.toString()).concat("=").concat(val1.divides(val2).toString()));
                         break;
                     case 4:
-                        System.out.println(val1.equals(val2) ? val1.toString().concat(" равно ").concat(val2.toString()) : val1.toString().concat("не равно ").concat(val2.toString()));
+                        System.out.println(val1.equals(val2) ? val1.toString().concat(" равно ").concat(val2.toString()) : val1.toString().concat(" не равно ").concat(val2.toString()));
                         break;
                     case 10:
                         isNewOperation = false;
+                        break;
                     default:
                         System.out.println("Неверная операция");
                         break;
