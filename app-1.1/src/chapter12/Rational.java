@@ -23,8 +23,12 @@ public final class Rational {
         } else {
             final int p = Math.toIntExact(gcd(numerator, denominator));//вообще, здесь я бы лучше gcd тоже перегрузил,но будет много функций
             final double sign = Double.valueOf(numerator) / Double.valueOf(denominator);
-            num = sign > 0 ? Math.abs(numerator) / p : -Math.abs(numerator) / p;
             denom = Math.abs(denominator) / p;
+            if (numerator > 0 && denominator < 0 || numerator < 0 && denominator > 0) {
+                num = -Math.abs(numerator) / p;
+            } else {
+                num = Math.abs(numerator) / p;
+            }
         }
     }
 
@@ -37,8 +41,12 @@ public final class Rational {
         } else {
             final long p = gcd(numerator, denominator);
             final double sign = Double.valueOf(numerator) / Double.valueOf(denominator);
-            num = sign > 0 ? Math.abs(numerator) / p : -Math.abs(numerator) / p;
             denom = Math.abs(denominator) / p;
+            if (numerator > 0 && denominator < 0 || numerator < 0 && denominator > 0) {
+                num = -Math.abs(numerator) / p;
+            } else {
+                num = Math.abs(numerator) / p;
+            }
             assert (num <= Integer.MAX_VALUE) && (num >= Integer.MIN_VALUE) : "Превышено максимально значение числителя";
             assert (denom <= Integer.MAX_VALUE) && (denom >= Integer.MIN_VALUE) : "Превышено максимально значение знаменателя";
         }
