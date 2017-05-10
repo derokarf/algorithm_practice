@@ -16,7 +16,7 @@ public final class Rational {
     }
 
     public Rational(final int numerator, final int denominator) {
-        assert denominator != 0 : "Знаменательне может быть 0";
+        assert denominator != 0 : "Знаменатель не может быть 0";
         if (numerator == 0) {
             num = 0;
             denom = 1;
@@ -30,7 +30,7 @@ public final class Rational {
 
     //перегрузка конструктора для математических операций
     public Rational(final long numerator, final long denominator) {
-        assert denominator != 0 : "Знаменательне может быть 0";
+        assert denominator != 0 : "Знаменатель не может быть 0";
         if (numerator == 0) {
             num = 0;
             denom = 1;
