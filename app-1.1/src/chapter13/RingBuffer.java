@@ -14,8 +14,6 @@ public class RingBuffer<Item> implements Iterable<Item> {
         size = _size;
         ring = (Item[]) new Object[size];
     }
-    
-    
 
     public boolean isEmpty() {
         return N == 0;
@@ -29,7 +27,7 @@ public class RingBuffer<Item> implements Iterable<Item> {
         if (N == ring.length) {
             return false;
         }
-        last = ++last%size;
+        last = ++last % size;
         ring[last] = item;
         N++;
         return true;
@@ -37,11 +35,13 @@ public class RingBuffer<Item> implements Iterable<Item> {
 
     public Item dequeue() {
         Item item = null;
-        if(N == 0) return item;
+        if (N == 0) {
+            return item;
+        }
         item = ring[first];
         N--;
-        first = ++first%size;
-        
+        first = ++first % size;
+
         return item;
     }
 
@@ -53,7 +53,7 @@ public class RingBuffer<Item> implements Iterable<Item> {
     private class RingIterator implements Iterator<Item> {
 
         private int i = 0;
-        private int index = first-1;
+        private int index = first - 1;
 
         @Override
         public boolean hasNext() {
@@ -63,7 +63,7 @@ public class RingBuffer<Item> implements Iterable<Item> {
         @Override
         public Item next() {
             i++;
-            index = ++index%size;
+            index = ++index % size;
             return ring[index];
         }
 
@@ -71,33 +71,33 @@ public class RingBuffer<Item> implements Iterable<Item> {
         public void remove() {
         }
     }
-    
-    public static void main (String args[]){
+
+    public static void main(String args[]) {
         RingBuffer<Integer> testRing = new RingBuffer<>(8);
         //заполнение
-        for(int i=0; i < 8;i++){
+        for (int i = 0; i < 8; i++) {
             testRing.enqueue(i);
         }
         printRing(testRing);
         //удаление
         System.out.println(testRing.dequeue());
         System.out.println(testRing.dequeue());
-        
+
         printRing(testRing);
         //закольцовывание
-        testRing.enqueue(17);        
+        testRing.enqueue(17);
         printRing(testRing);
         //очистка очереди
-        while(testRing.size() > 0){
+        while (testRing.size() > 0) {
             testRing.dequeue();
             printRing(testRing);
         }
     }
-    
-    public static void printRing(RingBuffer<Integer> _ring){
-        for(Integer n:_ring){
+
+    public static void printRing(RingBuffer<Integer> _ring) {
+        for (Integer n : _ring) {
             System.out.print(String.valueOf(n).concat(" "));
-        }        
-        System.out.println("");        
+        }
+        System.out.println("");
     }
 }
