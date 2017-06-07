@@ -27,7 +27,7 @@ public class RingBuffer<Item> implements Iterable<Item> {
         if (N == ring.length) {
             return false;
         }
-        last = ++last % size;
+        last = (last + 1) % size;
         ring[last] = item;
         N++;
         return true;
@@ -40,7 +40,7 @@ public class RingBuffer<Item> implements Iterable<Item> {
         }
         item = ring[first];
         N--;
-        first = ++first % size;
+        first = (first + 1) % size;
 
         return item;
     }
@@ -63,7 +63,7 @@ public class RingBuffer<Item> implements Iterable<Item> {
         @Override
         public Item next() {
             i++;
-            index = ++index % size;
+            index = (index + 1) % size;
             return ring[index];
         }
 
