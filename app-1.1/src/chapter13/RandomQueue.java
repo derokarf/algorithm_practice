@@ -19,7 +19,7 @@ public class RandomQueue<Item> implements Iterable<Item> {
     }
 
     Item dequeue() {
-        int index = (int) (Math.random() * (N - 1));
+        int index = (int) (Math.random() * N);
         Item item = box[index];
         box[index] = box[--N];
         box[N] = null;
@@ -31,7 +31,7 @@ public class RandomQueue<Item> implements Iterable<Item> {
 
     Item sample() {
 
-        return box[(int) (Math.random() * (N - 1))];
+        return box[(int) (Math.random() * N)];
     }
 
     public int size() {
@@ -98,7 +98,7 @@ public class RandomQueue<Item> implements Iterable<Item> {
 
         //Посмотрим колоду
         for (Card tmpCard : cardBox) {
-            System.out.print(tmpCard._mark.concat(" "));
+            System.out.print(tmpCard.getMark().concat(" "));
         }
         System.out.println("");
 
@@ -109,10 +109,10 @@ public class RandomQueue<Item> implements Iterable<Item> {
         String hand4 = "";
         //раздадим карты
         while (!cardBox.isEmpty()) {
-            hand1 = hand1.concat(cardBox.dequeue()._mark).concat(" ");
-            hand2 = hand2.concat(cardBox.dequeue()._mark).concat(" ");
-            hand3 = hand3.concat(cardBox.dequeue()._mark).concat(" ");
-            hand4 = hand4.concat(cardBox.dequeue()._mark).concat(" ");
+            hand1 = hand1.concat(cardBox.dequeue().getMark()).concat(" ");
+            hand2 = hand2.concat(cardBox.dequeue().getMark()).concat(" ");
+            hand3 = hand3.concat(cardBox.dequeue().getMark()).concat(" ");
+            hand4 = hand4.concat(cardBox.dequeue().getMark()).concat(" ");
         }
 
         System.out.println(hand1);
