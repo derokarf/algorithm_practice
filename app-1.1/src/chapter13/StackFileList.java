@@ -73,7 +73,7 @@ public class StackFileList {
         public RowFileList(File _file) {
             file = _file;
         }
-                
+
         public File file;
         public int countTabs = 0;
     }
@@ -81,8 +81,8 @@ public class StackFileList {
     public String getList(String path) {
         StringBuilder _list = new StringBuilder();
         File firstFile = new File(path);
-        
-        if(!firstFile.isDirectory()){
+
+        if (!firstFile.isDirectory()) {
             System.out.println("Это файл");
             return "";
         }
@@ -91,7 +91,7 @@ public class StackFileList {
 
         RowFileList lastFileListRow;
         RowFileList nextFileListRow;
-        
+
         lastFileListRow = new RowFileList(firstFile);
         queueDir.push(lastFileListRow);
         while (!queueDir.isEmpty()) {
@@ -103,30 +103,30 @@ public class StackFileList {
                     nextFileListRow.countTabs = lastFileListRow.countTabs + 1;
                     queueDir.push(nextFileListRow);
                 } else {
-                    _list.append(getFileString(lastFileListRow.countTabs,g_file));
+                    _list.append(getFileString(lastFileListRow.countTabs, g_file));
                 }
             }
         }
 
         return _list.toString();
     }
-    
-    private String getFileString(int countTabs,File _file){
+
+    private String getFileString(int countTabs, File _file) {
         StringBuilder strFile = new StringBuilder(getSpaceString(countTabs + 1));
         strFile.append("│ -");
         strFile.append(_file.getName());
         strFile.append("\n");
         return strFile.toString();
     }
-    
-    private String getDirString(RowFileList _row){
+
+    private String getDirString(RowFileList _row) {
         StringBuilder strDir = new StringBuilder(getSpaceString(_row.countTabs));
         strDir.append("└─ ");
         strDir.append(_row.file.getAbsolutePath());
         strDir.append("\n");
         return strDir.toString();
     }
-    
+
     private String getSpaceString(int i) {
         StringBuilder _str = new StringBuilder();
         for (int j = 0; j < i; j++) {

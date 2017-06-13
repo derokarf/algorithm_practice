@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class QueueFileList {
 
+    //реализация очереди взята из книги
     private class Queue<Item> implements Iterable<Item> {
 
         private Node first;
@@ -88,14 +89,14 @@ public class QueueFileList {
         queueDir.enqueue(firstFile);
         while (!queueDir.isEmpty()) {
             File t_file = queueDir.dequeue();
-            _list = _list.append(t_file.getAbsolutePath()).append("\n");
+            _list.append(t_file.getAbsolutePath()).append("\n");
             for (String fname : t_file.list()) {
                 fname = t_file.getAbsolutePath().concat(File.separator).concat(fname);
                 File g_file = new File(fname);
                 if (g_file.isDirectory()) {
                     queueDir.enqueue(g_file);
                 } else {
-                    _list = _list.append(" - ").append(g_file.getName()).append("\n");
+                    _list.append(" - ").append(g_file.getName()).append("\n");
                 }
             }
         }
