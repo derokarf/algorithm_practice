@@ -4,9 +4,7 @@ import java.util.Scanner;
 
 public class BitonicSearch {
 
-    protected static int[] list = {-3, 0, 1, 2, 4, 5, 7, 9, 8, 6, 3, -2};
-
-    public int isInclude(int value) {
+    public int isInclude(int[] list, int value) {
         int a, b;
         a = 0;
         b = list.length - 1;
@@ -70,6 +68,8 @@ public class BitonicSearch {
 
     public static void main(String[] args) {
 
+        int[] list = {-3, 0, 1, 2, 4, 5, 7, 9, 8, 6, 3, -2};
+        
         BitonicSearch bs = new BitonicSearch();
         Scanner scan = new Scanner(System.in);
         for (int i = 0; i < list.length; i++) {
@@ -82,7 +82,7 @@ public class BitonicSearch {
         System.out.println("");
         System.out.println("Введите число для поиска в последовательности");
         int val = scan.nextInt();
-        int res = bs.isInclude(val);
+        int res = bs.isInclude(list,val);
         if (res < 0) {
             System.out.println("Число не принадлежит последовательности");
         } else {
