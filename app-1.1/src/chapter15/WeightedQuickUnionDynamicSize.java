@@ -5,14 +5,14 @@ import libBook.StdIn;
 public class WeightedQuickUnionDynamicSize {
 
     private SiteList siteList;
-    private int count; // number of components
+    private int count = 0; // number of components
 
     public WeightedQuickUnionDynamicSize() {
         siteList = new SiteList();
     }
 
     public int count() {
-        return count;
+        return siteList.size() - count;
     }
 
     public boolean connected(int p, int q) {
@@ -40,11 +40,10 @@ public class WeightedQuickUnionDynamicSize {
             siteList.getSite(j).id = i;
             siteList.getSite(i).sz += siteList.getSite(j).sz;
         }
-        count--;
+        count++;
     }
 
     public static void main(String[] args) { // Solve dynamic connectivity problem on StdIn.
-        int N = StdIn.readInt(); // Read number of sites.
         WeightedQuickUnionDynamicSize uf = new WeightedQuickUnionDynamicSize(); // Initialize N components.
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();

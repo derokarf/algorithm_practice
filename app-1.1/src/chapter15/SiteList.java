@@ -4,14 +4,15 @@ import java.util.Iterator;
 
 public class SiteList implements Iterable {
 
-    private Site[] a = new Site[1];
+    private Site[] a = new Site[0];
+    private int N = 0;
 
     public boolean isEmpty() {
-        return a.length == 0;
+        return N == 0;
     }
 
     public int size() {
-        return a.length;
+        return N;
     }
 
     private void resize(int max) {
@@ -31,16 +32,13 @@ public class SiteList implements Iterable {
     }
 
     public int newSite(int index) {
-        if ((index >= 0) && (index < a.length)) {
-            return a[index].id;
+        if (index >= N) {
+            N = index + 1;
+            if (index >= a.length) {
+                resize(2 * index);
+            }
         }
-
-        if (index >= a.length) {
-            resize(2 * index);
-        }
-        Site item = new Site(index, 0);
-        a[index] = item;
-        return index;
+        return a[index].id;
     }
 
     @Override
@@ -54,7 +52,7 @@ public class SiteList implements Iterable {
 
         @Override
         public boolean hasNext() {
-            return i < a.length;
+            return i < N;
         }
 
         @Override
