@@ -20,10 +20,17 @@ public class WeightedQuickUnionDynamicSize {
     }
 
     private int find(int p) {
-        while (p != siteList.newSite(p)) {
-            p = siteList.newSite(p);
+        while (p != siteList.getSite(p).id) {
+            p = siteList.getSite(p).id;
         }
         return p;
+    }
+    
+    public int newSite(int site){
+        if(siteList.size() <= site){
+            return siteList.addSite(site);
+        }        
+        return siteList.getSite(site).id;
     }
 
     public void union(int p, int q) {
@@ -48,6 +55,8 @@ public class WeightedQuickUnionDynamicSize {
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt(); // Read pair to connect.
+            uf.newSite(q);
+            uf.newSite(p);
             if (uf.connected(p, q)) {
                 continue; // Ignore if connected.
             }

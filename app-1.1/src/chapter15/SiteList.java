@@ -31,7 +31,7 @@ public class SiteList implements Iterable {
         return a[index];
     }
 
-    public int newSite(int index) {
+    public int addSite(int index) {
         if (index >= N) {
             N = index + 1;
             if (index >= a.length) {
