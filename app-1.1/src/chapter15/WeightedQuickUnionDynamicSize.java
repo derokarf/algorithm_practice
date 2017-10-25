@@ -25,11 +25,11 @@ public class WeightedQuickUnionDynamicSize {
         }
         return p;
     }
-    
-    public int newSite(int site){
-        if(siteList.size() <= site){
+
+    public int newSite(int site) {
+        if (siteList.size() <= site) {
             return siteList.addSite(site);
-        }        
+        }
         return siteList.getSite(site).id;
     }
 
