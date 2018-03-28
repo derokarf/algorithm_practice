@@ -4,8 +4,9 @@ public class Improvements {
 
   private static void insertionSort(Comparable[] a, int lo, int hi) {
     for (int i = lo + 1; i <= hi; i++) {
-      for (int j = i; j > lo && less(a[j], a[j - 1]); j--)
+      for (int j = i; j > lo && less(a[j], a[j - 1]); j--) {
         exch(a, j, j - 1);
+      }
     }
   }
 
@@ -16,18 +17,22 @@ public class Improvements {
   private static Comparable[] res;
 
   //проверка массива на упорядоченность
-  public static boolean isSorted(Comparable[] a) {
-    for (int i = 1; i < a.length; i++)
-      if (less(a[i], a[i - 1])) return false;
+  private static boolean isSorted(Comparable[] a) {
+    for (int i = 1; i < a.length; i++) {
+      if (less(a[i], a[i - 1])) {
+        return false;
+      }
+    }
     return true;
   }
 
-  //корневая функция сортировки
+  /** Корневая функция сортировки. */
   public static void sort(Comparable[] a) {
     //создаем второй буфер-массив для слияния уже отсортированных массивов
     Comparable[] b = new Comparable[a.length];
     insertSortVal = (int) (a.length * 0.1);
-    //Маловероятный, но теоретически возможный случай, когда буферы поменялись местами перед последним слиянием
+    //Маловероятный, но теоретически возможный случай,
+    // когда буферы поменялись местами перед последним слиянием
     if (sort1(b, 0, a.length - 1, a).equals(b)) {
       System.arraycopy(b, 0, a, 0, a.length);
     }
@@ -40,22 +45,29 @@ public class Improvements {
   }
 
   private static Comparable[] merge(Comparable[] a, int lo, int mid, int hi, Comparable[] b) {
-    int i = lo, j = mid + 1;
+    int i = lo;
+    int j = mid + 1;
     for (int k = lo; k <= hi; k++) {
-      //левая часть закончилась
-      if (i > mid) a[k] = b[j++];
+      if (i > mid) {
+        //левая часть закончилась
+        a[k] = b[j++];
+      } else if (j > hi) {
         //правая часть закончилась
-      else if (j > hi) a[k] = b[i++];
+        a[k] = b[i++];
+      } else if (less(b[j], b[i])) {
         //ключ в правой меньше чем ключ в левой
-      else if (less(b[j], b[i])) a[k] = b[j++];
+        a[k] = b[j++];
+      } else {
         //ключ в левой меньше чем ключ в правой
-      else a[k] = b[i++];
+        a[k] = b[i++];
+      }
     }
     return a;
   }
 
   //сливает массивы, один из которых был уже отсортирован и потому для него не выполнялся merge
-  private static Comparable[] merge_sort(Comparable[] a, int lo, int mid, int hi, Comparable[] b, Boolean isLeftNoMerge) {
+  private static Comparable[] merge_sort(Comparable[] a, int lo, int mid,
+                                         int hi, Comparable[] b, Boolean isLeftNoMerge) {
     //a - сюда выполнялся merge половинок
     //b - отсюда выполнялся merge половинок
     //return - возвращаем буфер, в который производилось слияние
@@ -63,30 +75,42 @@ public class Improvements {
 
     //если (левая)[lo,mid] не перемещалась пишем в буфер a
     if (isLeftNoMerge) {
-      int i = lo, j = mid + 1;
+      int i = lo;
+      int j = mid + 1;
       for (int k = lo; k <= hi; k++) {
-        //левая часть закончилась, берем данные из правой, но с буфера a
-        if (i > mid) a[k] = a[j++];
+        if (i > mid) {
+          //левая часть закончилась, берем данные из правой, но с буфера a
+          a[k] = a[j++];
+        } else if (j > hi) {
           //правая часть закончилась, берем данные из левой, но с буфера b
-        else if (j > hi) a[k] = b[i++];
+          a[k] = b[i++];
+        } else if (less(a[j], b[i])) {
           //ключ в правой меньше чем ключ в левой
-        else if (less(a[j], b[i])) a[k] = a[j++];
+          a[k] = a[j++];
+        } else {
           //ключ в левой меньше чем ключ в правой
-        else a[k] = b[i++];
+          a[k] = b[i++];
+        }
       }
       return a;
     } else {
       //если (правая)[mid,hi] не перемещалась, пишем в буфер b
-      int i = lo, j = mid + 1;
+      int i = lo;
+      int j = mid + 1;
       for (int k = lo; k <= hi; k++) {
-        //левая часть закончилась, завершаем, т.к. правая отсортирована и уже на месте
-        if (i > mid) return b;
-          //правая часть закончилась, берем данные из левой, но с буфера a
-        else if (j > hi) b[k] = a[i++];
+        if (i > mid) {
+          //левая часть закончилась, завершаем, т.к. правая отсортирована и уже на месте
+          return b;
+        } else if (j > hi) {
+          //левая часть закончилась, завершаем, т.к. правая отсортирована и уже на месте
+          b[k] = a[i++];
+        } else if (less(b[j], a[i])) {
           //ключ в правой меньше чем ключ в левой
-        else if (less(b[j], a[i])) b[k] = b[j++];
+          b[k] = b[j++];
+        } else {
           //ключ в левой меньше чем ключ в правой
-        else b[k] = a[i++];
+          b[k] = a[i++];
+        }
       }
       return b;
     }
@@ -122,7 +146,8 @@ public class Improvements {
     //ВТОРАЯ СОСРТИРОВКА
     c = sort1(a, mid + 1, hi, b);
     //если левая часть перемещалась
-    //и слияние в буфер записи не производилось на второй сортировке, помечаем правую часть массива как неперемещенную
+    //и слияние в буфер записи не производилось на второй сортировке,
+    // помечаем правую часть массива как неперемещенную
     if (isLeftNoMerge == null) {
       if (!c.equals(a)) {
         isLeftNoMerge = false;
@@ -137,16 +162,18 @@ public class Improvements {
     //обе отсортированные половины:
     if (isLeftNoMerge == null) {
       if (c.equals(a)) {
-        // Проверка массива на упорядоченность, если массив упорядочен, т.е. элементы левой отсортированной части
-        // не больше элементов правой отсортированной части - слияние не производится
+        // Проверка массива на упорядоченность, если массив упорядочен,
+        // т.е. элементы левой отсортированной части не больше элементов
+        // правой отсортированной части - слияние не производится
         if (c[mid].compareTo(c[mid + 1]) <= 0) {
           return c;
         }
         // - перемещались, меняeм буфера местами
         c = merge(b, lo, mid, hi, a);
       } else {
-        // Проверка массива на упорядоченность, если массив упорядочен, т.е. элементы левой отсортированной части
-        // не больше элементов правой отсортированной части - слияние не производится
+        // Проверка массива на упорядоченность, если массив упорядочен,
+        // т.е. элементы левой отсортированной части не больше элементов
+        // правой отсортированной части - слияние не производится
         if (c[mid].compareTo(c[mid + 1]) <= 0) {
           return c;
         }
@@ -160,11 +187,12 @@ public class Improvements {
     return c;
   }
 
+  /** Функция тестирования сортировки. */
   public static void main(String[] args) {
-    int N = 1001;
-    Integer[] data = new Integer[N];
+    int n = 1001;
+    Integer[] data = new Integer[n];
     for (int i = 0; i < data.length; i++) {
-      data[i] = (int) (Math.random() * N);
+      data[i] = (int) (Math.random() * n);
     }
     Lists.show("src", data);
     sort(data);
