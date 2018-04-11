@@ -1,10 +1,10 @@
-import libs.Lists; /** Содержит базовые методы для работы с массивами, списками */
-import libs.StdRandom; /** Библиотека для работы со случаными числами */
+import libs.Lists; /** Содержит базовые методы для работы с массивами, списками. */
+import libs.StdRandom; /** Библиотека для работы со случаными числами. */
 
 public class NutsBoltsQuick {
 
   /**
-   * Начинает процесс сортировки
+   * Начинает процесс сортировки.
    * @param a Массив "гаек"
    * @param b Массив "болтов"
    */
@@ -16,7 +16,7 @@ public class NutsBoltsQuick {
   }
 
   /**
-   * Рекурсивная функция для сортировки
+   * Рекурсивная функция для сортировки.
    * @param a Массив "гаек"
    * @param b Массив "болтов"
    * @param lo Нижняя граница перестановки
@@ -31,7 +31,7 @@ public class NutsBoltsQuick {
     sort(a, b, j + 1, hi);
   }
 
-  /** Выполняет разбиение и перестановки внутри массива
+  /** Выполняет разбиение и перестановки внутри массива.
    * @return Возвращает индекс центрального элемента
    * */
   private static int partition(Comparable[] a, Comparable[] b, int lo, int hi) {
@@ -104,7 +104,7 @@ public class NutsBoltsQuick {
     return j;
   }
 
-  /** Тестирование класса */
+  /** Тестирование класса. */
   public static void main(String[] args) {
     int n = 10000;
 
